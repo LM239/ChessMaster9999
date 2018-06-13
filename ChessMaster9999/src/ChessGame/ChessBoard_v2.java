@@ -76,7 +76,8 @@ public class ChessBoard_v2{
 				threatBoard.get(i).get(o).clear();
 			}
 		}
-		Arrays.stream(this.chessBoard).forEach(x -> Arrays.stream(x).filter(y -> y != null).forEach(c -> c.placeThreats(this.chessBoard)));
+		Arrays.stream(this.chessBoard).forEach(x -> Arrays.stream(x).filter(y -> y != null)
+			.forEach(c -> c.placeThreats(this.chessBoard)));
 	}
 	
 	public void getInput(int[] input) {
@@ -144,14 +145,14 @@ public class ChessBoard_v2{
 					while (true) {
 						if ((dynamicValueWasX ? kingX : kingY)-dynamicValue == 0) {break;}
 						if (threatBoard.get(dynamicValueWasX ? dynamicValue : enemyX).get(dynamicValueWasX ? enemyY : dynamicValue).contains(chessPiece)
-								&& !(chessPiece instanceof Pawn) || (chessPiece instanceof Pawn &&((chessBoard[dynamicValueWasX ? dynamicValue : enemyX][dynamicValueWasX ? enemyY : dynamicValue] != null 
-								&& chessBoard[dynamicValueWasX ? dynamicValue : enemyX][dynamicValueWasX ? enemyY : dynamicValue].isWhitePiece() != whiteToMove)
-								&& threatBoard.get(dynamicValueWasX ? dynamicValue : enemyX).get(dynamicValueWasX ? enemyY : dynamicValue).contains(chessPiece)		
-								|| ((dynamicValueWasX ? dynamicValue : enemyX) == pieceX &&
-								chessBoard[dynamicValueWasX ? dynamicValue : enemyX][dynamicValueWasX ? enemyY : dynamicValue] == null
-								&& ((dynamicValueWasX ? enemyY : dynamicValue) == pieceY + ((Pawn)chessPiece).getCoefficient()
-								|| (dynamicValueWasX ? enemyY : dynamicValue) == pieceY + ((Pawn)chessPiece).getCoefficient()*2 
-								&& ((Pawn)chessPiece).isLongMove()))))) 
+							&& !(chessPiece instanceof Pawn) || (chessPiece instanceof Pawn &&((chessBoard[dynamicValueWasX ? dynamicValue : enemyX][dynamicValueWasX ? enemyY : dynamicValue] != null 
+							&& chessBoard[dynamicValueWasX ? dynamicValue : enemyX][dynamicValueWasX ? enemyY : dynamicValue].isWhitePiece() != whiteToMove)
+							&& threatBoard.get(dynamicValueWasX ? dynamicValue : enemyX).get(dynamicValueWasX ? enemyY : dynamicValue).contains(chessPiece)		
+							|| ((dynamicValueWasX ? dynamicValue : enemyX) == pieceX &&
+							chessBoard[dynamicValueWasX ? dynamicValue : enemyX][dynamicValueWasX ? enemyY : dynamicValue] == null
+							&& ((dynamicValueWasX ? enemyY : dynamicValue) == pieceY + ((Pawn)chessPiece).getCoefficient()
+							|| (dynamicValueWasX ? enemyY : dynamicValue) == pieceY + ((Pawn)chessPiece).getCoefficient()*2 
+							&& ((Pawn)chessPiece).isLongMove()))))) 
 						{
 							highlights.add(new int[]{dynamicValueWasX ? dynamicValue : enemyX, dynamicValueWasX ? enemyY : dynamicValue});
 						}
@@ -190,7 +191,7 @@ public class ChessBoard_v2{
 				for (int y = kingY - 1; y <= kingY + 1; y++) {
 					if (y < 0 || y > 7 || x == kingX && y == kingX) {continue;}
 					if ((chessBoard[x][y] == null || chessBoard[x][y].isWhitePiece() != chessPiece.isWhitePiece())
-							&& threatBoard.get(x).get(y).stream().allMatch(p-> p.isWhitePiece() == whiteToMove))
+						&& threatBoard.get(x).get(y).stream().allMatch(p-> p.isWhitePiece() == whiteToMove))
 					{
 						highlights.add(new int[]{x,y});
 					}
@@ -234,7 +235,8 @@ public class ChessBoard_v2{
 					chessPiece potentialEnemy = chessBoard[dynamicValueWasX ? dynamicValue : pieceX]
 					[dynamicValueWasX ? pieceY : dynamicValue];
 					if((potentialEnemy instanceof Rook || potentialEnemy instanceof Queen)
-							&& potentialEnemy.isWhitePiece() != whiteToMove) {
+						&& potentialEnemy.isWhitePiece() != whiteToMove) {
+						
 						for (int x = 0; x < 8; x++) {
 							for (int y = 0; y < 8; y++) {
 								if (threatBoard.get(x).get(y).contains(chessPiece)) {
@@ -270,6 +272,7 @@ public class ChessBoard_v2{
 			int testValueX = kingX + coefficientX;
 			int testValueY = kingY + coefficientY;
 			boolean clearDiagonal = true;
+			
 			while(true) {
 				if (chessBoard[testValueX][testValueY] != null) {
 					if (chessBoard[testValueX][testValueY] == chessPiece) {
@@ -287,20 +290,21 @@ public class ChessBoard_v2{
 				if (chessBoard[pieceX][pieceY] != null) {
 					chessPiece potentialEnemy = chessBoard[pieceX][pieceY];
 					if(potentialEnemy.isWhitePiece() != whiteToMove && 
-						(potentialEnemy instanceof Bishop || potentialEnemy instanceof Queen)) {							
-							for (int x = 0; x < 8; x++) {
-								for (int y = 0; y < 8; y++) {
-									if (threatBoard.get(x).get(y).contains(chessPiece)) {
-										if ((chessBoard[x][y] == null || chessBoard[x][y].isWhitePiece() != chessPiece.isWhitePiece())
-										&& Math.abs(x - kingX) == Math.abs(y - kingY) && (x - kingX > 0 ? 1 : -1) == coefficientX && 
-										(y - kingY > 0 ? 1 : -1) == coefficientY && (!(chessPiece instanceof Pawn)
-										|| chessBoard[x][y] != null && chessBoard[x][y].isWhitePiece() != chessPiece.isWhitePiece())) 
-										{
-											highlights.add(new int[]{x,y});
-										}
+						(potentialEnemy instanceof Bishop || potentialEnemy instanceof Queen)) {
+						
+						for (int x = 0; x < 8; x++) {
+							for (int y = 0; y < 8; y++) {
+								if (threatBoard.get(x).get(y).contains(chessPiece)) {
+									if ((chessBoard[x][y] == null || chessBoard[x][y].isWhitePiece() != chessPiece.isWhitePiece())
+									&& Math.abs(x - kingX) == Math.abs(y - kingY) && (x - kingX > 0 ? 1 : -1) == coefficientX && 
+									(y - kingY > 0 ? 1 : -1) == coefficientY && (!(chessPiece instanceof Pawn)
+									|| chessBoard[x][y] != null && chessBoard[x][y].isWhitePiece() != chessPiece.isWhitePiece())) 
+									{
+										highlights.add(new int[]{x,y});
 									}
 								}
 							}
+						}
 						return;
 					} 
 					else {
